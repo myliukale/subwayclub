@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>和平俱乐部 - 共创和谐世界</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb', // 主色调：和平蓝
+                        secondary: '#10b981', // 辅助色：希望绿
+                        accent: '#8b5cf6', // 强调色：和谐紫
+                        neutral: '#f3f4f6', // 中性色：浅灰
+                        dark: '#1f2937' // 深色
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .transition-navbar {
+                transition: background-color 0.3s, padding 0.3s, box-shadow 0.3s;
+            }
+        }
+    </style>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 自定义动画 */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 延迟动画 */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        
+        /* 初始隐藏动画元素 */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="font-inter text-dark bg-white">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full top-0 z-50 transition-navbar py-4 bg-transparent">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                        <i class="fa fa-paper-plane text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-white text-shadow">和平俱乐部</span>
+                </a>
+                
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-white hover:text-primary/80 transition-colors font-medium">关于我们</a>
+                    <a href="#activities" class="text-white hover:text-primary/80 transition-colors font-medium">活动</a>
+                    <a href="#projects" class="text-white hover:text-primary/80 transition-colors font-medium">项目</a>
+                    <a href="#news" class="text-white hover:text-primary/80 transition-colors font-medium">新闻</a>
+                    <a href="#contact" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full transition-all transform hover:scale-105">联系我们</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden text-white text-2xl focus:outline-none">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full mt-4 py-4 px-4 rounded-b-lg">
+            <nav class="flex flex-col space-y-4">
+                <a href="#about" class="text-dark hover:text-primary transition-colors font-medium py-2">关于我们</a>
+                <a href="#activities" class="text-dark hover:text-primary transition-colors font-medium py-2">活动</a>
+                <a href="#projects" class="text-dark hover:text-primary transition-colors font-medium py-2">项目</a>
+                <a href="#news" class="text-dark hover:text-primary transition-colors font-medium py-2">新闻</a>
+                <a href="#contact" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full text-center transition-all">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- 背景图片 -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://picsum.photos/id/1015/1920/1080" alt="和平与自然的景象，象征和谐共处" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-dark/60"></div>
+        </div>
+        
+        <!-- 内容 -->
+        <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
+            <h1 class="text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-white leading-tight mb-6 fade-in">
+                共创和平，<br class="md:hidden">共享美好未来
+            </h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 max-w-3xl mx-auto mb-10 fade-in delay-200">
+                和平俱乐部致力于促进理解、化解冲突、建设一个更加和谐、包容的世界。
+                加入我们，一起为和平贡献力量。
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 fade-in delay-300">
+                <a href="#contact" class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full text-lg font-medium transition-all transform hover:scale-105 shadow-lg">
+                    联系我们
+                </a>
+                <a href="#about" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/30 px-8 py-3 rounded-full text-lg font-medium transition-all">
+                    了解更多
+                </a>
+            </div>
+            
+            <!-- 向下滚动指示器 -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <a href="#about" class="text-white/80 hover:text-white text-3xl">
+                    <i class="fa fa-angle-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="py-20 bg-neutral">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">关于和平俱乐部</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    我们是一个致力于推动全球和平与理解的非营利组织，成立于2005年，
+                    由一群热爱和平的各界人士共同创立。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="animate-on-scroll">
+                    <img src="https://picsum.photos/id/1071/800/600" alt="和平俱乐部成员在进行交流活动" class="w-full h-auto rounded-xl shadow-xl">
+                </div>
+                
+                <div class="space-y-6 animate-on-scroll">
+                    <h3 class="text-2xl font-semibold text-dark">我们的使命</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        和平俱乐部的使命是通过教育、对话和社区建设，促进不同文化、宗教和背景的人们之间的理解与合作，
+                        消除偏见与仇恨，预防冲突，建设可持续的和平。
+                    </p>
+                    
+                    <h3 class="text-2xl font-semibold text-dark">我们的愿景</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        我们展望一个没有暴力、歧视和冲突的世界，一个人们相互尊重、平等相待、和谐共处的世界。
+                        在这个世界里，每个人都能发挥自己的潜能，为共同的美好未来贡献力量。
+                    </p>
+                    
+                    <div class="pt-4">
+                        <a href="#values" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解我们的核心价值观
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 核心价值观 -->
+            <div id="values" class="mt-20 animate-on-scroll">
+                <h3 class="text-2xl font-semibold text-center mb-12">我们的核心价值观</h3>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- 价值观1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center transform hover:-translate-y-1 duration-300">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-handshake-o text-primary text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">相互尊重</h4>
+                        <p class="text-gray-600">尊重每个人的尊严、权利和独特性，不论其背景如何。</p>
+                    </div>
+                    
+                    <!-- 价值观2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center transform hover:-translate-y-1 duration-300">
+                        <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-comments text-secondary text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">开放对话</h4>
+                        <p class="text-gray-600">通过坦诚、包容的对话解决分歧，寻求共同理解。</p>
+                    </div>
+                    
+                    <!-- 价值观3 -->
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center transform hover:-translate-y-1 duration-300">
+                        <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-users text-accent text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">团结协作</h4>
+                        <p class="text-gray-600">相信集体的力量，通过合作实现共同目标。</p>
+                    </div>
+                    
+                    <!-- 价值观4 -->
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow text-center transform hover:-translate-y-1 duration-300">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa fa-leaf text-primary text-2xl"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3">可持续发展</h4>
+                        <p class="text-gray-600">为当代和后代创造一个和平、公正、环保的世界。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 活动展示 -->
+    <section id="activities" class="py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">我们的活动</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    和平俱乐部定期举办各种活动，旨在促进交流、增进理解、传播和平理念。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 活动1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow animate-on-scroll group">
+                    <div class="relative overflow-hidden h-60">
+                        <img src="https://picsum.photos/id/1060/600/400" alt="国际和平论坛活动现场" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-primary text-white text-sm font-medium px-3 py-1 rounded-full">
+                            年度活动
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">国际和平论坛</h3>
+                        <p class="text-gray-600 mb-4">汇聚全球和平倡导者、学者和活动家，共同探讨和平建设的策略与实践。</p>
+                        <div class="flex items-center text-gray-500 text-sm mb-4">
+                            <i class="fa fa-calendar mr-2"></i>
+                            <span>每年10月第一个周末</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解详情
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 活动2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow animate-on-scroll group">
+                    <div class="relative overflow-hidden h-60">
+                        <img src="https://picsum.photos/id/26/600/400" alt="跨文化交流工作坊" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-secondary text-white text-sm font-medium px-3 py-1 rounded-full">
+                            每月活动
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">跨文化交流工作坊</h3>
+                        <p class="text-gray-600 mb-4">通过互动活动和讨论，增进不同文化背景成员之间的理解与友谊。</p>
+                        <div class="flex items-center text-gray-500 text-sm mb-4">
+                            <i class="fa fa-calendar mr-2"></i>
+                            <span>每月第三个周六</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解详情
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 活动3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow animate-on-scroll group">
+                    <div class="relative overflow-hidden h-60">
+                        <img src="https://picsum.photos/id/24/600/400" alt="和平教育进校园活动" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute top-4 left-4 bg-accent text-white text-sm font-medium px-3 py-1 rounded-full">
+                            持续项目
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">和平教育进校园</h3>
+                        <p class="text-gray-600 mb-4">在学校开展和平教育课程，培养青少年的同理心、冲突解决能力和全球公民意识。</p>
+                        <div class="flex items-center text-gray-500 text-sm mb-4">
+                            <i class="fa fa-calendar mr-2"></i>
+                            <span>全年持续进行</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解详情
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 animate-on-scroll">
+                <a href="#" class="inline-block bg-white border border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full text-lg font-medium transition-all">
+                    查看所有活动
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目介绍 -->
+    <section id="projects" class="py-20 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">我们的项目</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    和平俱乐部开展多个长期项目，从不同角度推动和平事业的发展。
+                </p>
+            </div>
+            
+            <div class="space-y-16">
+                <!-- 项目1 -->
+                <div class="flex flex-col md:flex-row gap-10 items-center animate-on-scroll">
+                    <div class="md:w-1/2">
+                        <img src="https://picsum.photos/id/1068/800/600" alt="冲突调解与和解项目" class="w-full h-auto rounded-xl shadow-lg">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">冲突解决</span>
+                        <h3 class="text-2xl font-semibold mb-4">冲突调解与和解项目</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            该项目旨在为社区、组织和地区提供冲突调解培训和服务，帮助各方通过对话和协商解决分歧，
+                            修复关系，实现可持续的和解。我们的专业调解员团队在世界各地开展工作，
+                            处理从社区内部矛盾到地区冲突等各种规模的争端。
+                        </p>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>提供专业的冲突调解培训</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>为冲突各方提供中立的调解服务</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>推动和解与关系修复工作坊</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解更多项目细节
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 项目2 -->
+                <div class="flex flex-col md:flex-row-reverse gap-10 items-center animate-on-scroll">
+                    <div class="md:w-1/2">
+                        <img src="https://picsum.photos/id/20/800/600" alt="和平教育与青年赋能项目" class="w-full h-auto rounded-xl shadow-lg">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="inline-block bg-secondary/10 text-secondary px-4 py-1 rounded-full text-sm font-medium mb-4">教育赋能</span>
+                        <h3 class="text-2xl font-semibold mb-4">和平教育与青年赋能项目</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            我们相信青年是和平的未来。该项目通过在学校和社区开展和平教育课程、领导力培训和
+                            跨文化交流活动，培养年轻人的和平意识、全球视野和社会责任感，
+                            赋能他们成为积极的和平建设者。
+                        </p>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>开发和平教育课程与教材</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>组织青年和平领袖训练营</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>开展国际青年交流计划</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解更多项目细节
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 项目3 -->
+                <div class="flex flex-col md:flex-row gap-10 items-center animate-on-scroll">
+                    <div class="md:w-1/2">
+                        <img src="https://picsum.photos/id/65/800/600" alt="文化理解与包容项目" class="w-full h-auto rounded-xl shadow-lg">
+                    </div>
+                    <div class="md:w-1/2">
+                        <span class="inline-block bg-accent/10 text-accent px-4 py-1 rounded-full text-sm font-medium mb-4">文化交流</span>
+                        <h3 class="text-2xl font-semibold mb-4">文化理解与包容项目</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            该项目致力于促进不同文化、宗教和族群之间的相互理解与包容，消除偏见和歧视。
+                            通过文化展览、艺术表演、对话论坛等形式，我们创造机会让人们体验和欣赏多元文化的丰富性，
+                            建立跨越差异的桥梁。
+                        </p>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>举办多元文化节和展览</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>开展跨文化对话与理解工作坊</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa fa-check-circle text-secondary mt-1 mr-3"></i>
+                                <span>支持少数群体权益与发声</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                            了解更多项目细节
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-16 animate-on-scroll">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">联系我们</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    无论您有任何问题、建议或合作意向，都欢迎与我们联系。我们期待听到您的声音。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="animate-on-scroll">
+                    <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+                        <h3 class="text-2xl font-semibold mb-6">联系方式</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-map-marker text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">地址</h4>
+                                    <p class="text-gray-600">北京市海淀区和平路100号和平中心15层</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-phone text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">电话</h4>
+                                    <p class="text-gray-600">+86 (10) 8888-7777</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-envelope text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">电子邮箱</h4>
+                                    <p class="text-gray-600">info@peaceclub.org</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fa fa-clock-o text-primary text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium mb-1">工作时间</h4>
+                                    <p class="text-gray-600">周一至周五: 9:00 - 18:00</p>
+                                    <p class="text-gray-600">周六: 10:00 - 16:00（仅活动日）</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
